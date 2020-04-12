@@ -26,13 +26,13 @@ async def main():
         print_board(game.board)
 
         board_json = {
-            "board": board_to_json(game.board)
+            "rows": board_to_json(game.board)
         }
 
         async with websockets.connect(uri) as websocket:
             await websocket.send(json.dumps(board_json))
 
-        time.sleep(5)
+        time.sleep(0.3)
 
 
 if __name__ == "__main__":

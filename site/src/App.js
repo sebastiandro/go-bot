@@ -1,28 +1,43 @@
 import React from "react";
 import "./App.css";
 
-const boardWidth = 600;
+const boardWidth = 400;
+const socket = new WebSocket("ws://localhost:8765/sub");
 
 class Board extends React.Component {
   constructor(props) {
     super(props);
-    this.board = {
-      rows: [
-        [".", ".", ".", ".", ".", ".", ".", ".", "."],
-        [".", ".", ".", ".", ".", ".", ".", ".", "."],
-        ["o", "x", "o", ".", ".", "o", ".", ".", "."],
-        [".", ".", ".", ".", ".", "o", ".", ".", "."],
-        [".", ".", ".", ".", ".", ".", ".", ".", "."],
-        [".", ".", ".", ".", ".", ".", ".", ".", "."],
-        [".", ".", ".", ".", ".", ".", ".", ".", "."],
-        [".", ".", ".", ".", ".", ".", ".", ".", "."],
-        [".", ".", ".", ".", ".", ".", ".", ".", "."],
-      ],
+    this.state = {
+      board: {
+        rows: [
+          [".", ".", ".", ".", ".", ".", ".", ".", "."],
+          [".", ".", ".", ".", ".", ".", ".", ".", "."],
+          [".", ".", ".", ".", ".", ".", ".", ".", "."],
+          [".", ".", ".", ".", ".", ".", ".", ".", "."],
+          [".", ".", ".", ".", ".", ".", ".", ".", "."],
+          [".", ".", ".", ".", ".", ".", ".", ".", "."],
+          [".", ".", ".", ".", ".", ".", ".", ".", "."],
+          [".", ".", ".", ".", ".", ".", ".", ".", "."],
+          [".", ".", ".", ".", ".", ".", ".", ".", "."],
+        ],
+      },
+    };
+
+    socket.onopen = function (e) {
+      console.log("Connected to game socket.");
+    };
+  }
+
+  componentDidMount() {
+    socket.onmessage = (event) => {
+      this.setState({
+        board: JSON.parse(event.data),
+      });
     };
   }
 
   getStone(column, width) {
-    if (column == "o")
+    if (column === "o")
       return (
         <div
           style={{
@@ -34,7 +49,7 @@ class Board extends React.Component {
           className="black-stone stone"
         ></div>
       );
-    if (column == "x")
+    if (column === "x")
       return (
         <div
           style={{
@@ -50,14 +65,14 @@ class Board extends React.Component {
   }
 
   createBoard() {
-    let numRows = this.board.rows.length;
+    let numRows = this.state.board.rows.length;
     let boxWidth = boardWidth / numRows;
     let rows = [];
-    this.board.rows.forEach((row, row_ix) => {
+    this.state.board.rows.forEach((row, row_ix) => {
       let cols = [];
       row.forEach((col, col_ix) => {
         let colWidth = boxWidth - 1;
-        if (col_ix == 0) colWidth = boxWidth - 2;
+        if (col_ix === 0) colWidth = boxWidth - 2;
         cols.push(
           <div
             style={{ width: colWidth, height: boxWidth }}
@@ -79,8 +94,8 @@ class Board extends React.Component {
 
   render() {
     return (
-      <div id="board" style={{ width: boardWidth, height: boardWidth }}>
-        {this.createBoard()}
+      <div id="board" style={{ width: boardWidth }}>
+        {this.state.board ? this.createBoard() : ""}
       </div>
     );
   }
@@ -88,7 +103,7 @@ class Board extends React.Component {
 
 function App() {
   return (
-    <div style={{ width: boardWidth }} className="App">
+    <div style={{ width: boardWidth + 60 }} className="App">
       <h1>Go Bots be Playing!</h1>
       <Board />
     </div>

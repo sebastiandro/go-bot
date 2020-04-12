@@ -28,3 +28,14 @@ def print_board(board):
             line.append(STONE_TO_CHAR[stone])
         print("%s%d %s" % (bump, row, ''.join(line)))
     print('     ' + '  '.join(COLS[:board.num_cols]))
+
+
+def board_to_json(board):
+    rows = []
+    for row in range(1, board.num_rows + 1):
+        cols = []
+        for col in range(1, board.num_rows + 1):
+            stone = board.get(gotypes.Point(row=row, col=col))
+            cols.append(STONE_TO_CHAR[stone].strip())
+        rows.append(cols)
+    return rows

@@ -1,7 +1,9 @@
-let socket = new WebSocket("ws://127.0.1:8765");
+let socket = new WebSocket("ws://localhost:8765/sub");
 
 socket.onopen = function (e) {
-  console.log("[open] Connection established");
-  console.log("Sending to server");
-  socket.send("John");
+  console.log("Connected to game socket.");
+};
+
+socket.onmessage = function (event) {
+  console.log(`Data received from server: ${event.data}`);
 };

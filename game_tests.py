@@ -5,13 +5,13 @@ from dlgo.goboard_slow import *
 
 class TestGame(unittest.TestCase):
 
-    """ If a stone is placed, the board should return 
-    that stone when queried """
-
     def setUp(self):
         self.board = Board(19, 19)
         self.player = Player.black
         self.board = Board(19, 19)
+
+    """ If a stone is placed, the board should return 
+    that stone when queried """
 
     def test_place_stone(self):
         move = Point(5, 5)

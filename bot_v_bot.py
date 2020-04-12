@@ -1,7 +1,7 @@
 from dlgo.agent import naive
 from dlgo import goboard_slow
 from dlgo import gotypes
-from dlgo.utils import print_board, print_move, board_to_json
+from dlgo.utils import print_board, print_move, board_to_json, move_to_text
 import time
 import random
 import json
@@ -26,13 +26,16 @@ async def main():
         print_board(game.board)
 
         board_json = {
-            "rows": board_to_json(game.board)
+            "board": {
+                "rows": board_to_json(game.board)
+            },
+            "message": move_to_text(game.next_player, bot_move)
         }
 
         async with websockets.connect(uri) as websocket:
             await websocket.send(json.dumps(board_json))
 
-        time.sleep(0.3)
+        time.sleep(0.5)
 
 
 if __name__ == "__main__":

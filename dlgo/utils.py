@@ -19,6 +19,23 @@ def print_move(player, move):
     print("%s %s" % (player, move_str))
 
 
+def move_to_text(player, move):
+
+    playerName = "Black"
+    if player == gotypes.Player.white:
+        playerName = "White"
+
+    if move.is_pass:
+        move_str = 'passes'
+    elif move.is_resign:
+        move_str = 'resigns'
+    else:
+        move_str = "places on %s%d" % (
+            COLS[move.point.col - 1], move.point.row)
+
+    return "%s %s" % (playerName, move_str)
+
+
 def print_board(board):
     for row in range(board.num_rows, 0, -1):
         bump = " " if row <= 9 else ""

@@ -21,6 +21,7 @@ class Board extends React.Component {
           [".", ".", ".", ".", ".", ".", ".", ".", "."],
         ],
       },
+      message: "Waiting for bots",
     };
 
     socket.onopen = function (e) {
@@ -30,8 +31,10 @@ class Board extends React.Component {
 
   componentDidMount() {
     socket.onmessage = (event) => {
+      let parsedData = JSON.parse(event.data);
       this.setState({
-        board: JSON.parse(event.data),
+        board: parsedData.board,
+        message: parsedData.message,
       });
     };
   }
@@ -94,8 +97,11 @@ class Board extends React.Component {
 
   render() {
     return (
-      <div id="board" style={{ width: boardWidth }}>
-        {this.state.board ? this.createBoard() : ""}
+      <div className="boardWrap">
+        <div id="board" style={{ width: boardWidth }}>
+          {this.state.board ? this.createBoard() : ""}
+        </div>
+        <h3>{this.state.message}</h3>
       </div>
     );
   }

@@ -21,6 +21,34 @@ class Board extends React.Component {
     };
   }
 
+  getStone(column, width) {
+    if (column == "o")
+      return (
+        <div
+          style={{
+            height: width,
+            width: width,
+            right: width / 2,
+            top: -width / 2,
+          }}
+          className="black-stone stone"
+        ></div>
+      );
+    if (column == "x")
+      return (
+        <div
+          style={{
+            height: width,
+            width: width,
+            right: width / 2,
+            top: -width / 2,
+          }}
+          className="white-stone stone"
+        ></div>
+      );
+    return "";
+  }
+
   createBoard() {
     let numRows = this.board.rows.length;
     let boxWidth = boardWidth / numRows;
@@ -35,7 +63,9 @@ class Board extends React.Component {
             style={{ width: colWidth, height: boxWidth }}
             className="col"
             key={"col-" + col_ix}
-          ></div>
+          >
+            {this.getStone(col, boxWidth)}
+          </div>
         );
       });
       rows.push(
@@ -58,7 +88,8 @@ class Board extends React.Component {
 
 function App() {
   return (
-    <div className="App">
+    <div style={{ width: boardWidth }} className="App">
+      <h1>Go Bots be Playing!</h1>
       <Board />
     </div>
   );

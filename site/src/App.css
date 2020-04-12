@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  width: 600px;
   margin: 100px auto;
 }
 
@@ -56,4 +55,17 @@
 
 #board .row .col:first-child {
   border-left: 1px solid #ddd;
+}
+
+.stone {
+  background: url("./black_stone.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.white-stone {
+  background: url("./white_stone.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
